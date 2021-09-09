@@ -1,4 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.PullRequests
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
@@ -31,12 +33,28 @@ project {
     buildType(Build)
 }
 
+object TestSubproject : Project({
+    name = "Test Subproject"
+})
+
 object Build : BuildType({
     name = "Build"
 
     steps {
         script {
             scriptContent = "echo 'Hello World!'"
+        }
+    }
+
+    features {
+        pullRequests {
+            vcsRootExtId = "${DslContext.settingsRoot.id}"
+            provider = github {
+                authType = token {
+                    token = "credentialsJSON:c0024323-e847-4c55-a1be-431f6f1c14e8"
+                }
+                filterAuthorRole = PullRequests.GitHubRoleFilter.EVERYBODY
+            }
         }
     }
 
