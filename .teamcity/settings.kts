@@ -35,7 +35,7 @@ project {
 
 object TestSubproject : Project({
     name = "Test Subproject"
-    buildType(Build)
+    buildType(SubBuild)
 })
 
 object Build : BuildType({
@@ -56,6 +56,25 @@ object Build : BuildType({
                 }
                 filterAuthorRole = PullRequests.GitHubRoleFilter.EVERYBODY
             }
+        }
+    }
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    triggers {
+        vcs {
+        }
+    }
+})
+
+object SubBuild : BuildType({
+    name = "Build"
+
+    steps {
+        script {
+            scriptContent = "echo 'Hello Subproject!'"
         }
     }
 
