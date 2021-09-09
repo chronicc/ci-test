@@ -1,4 +1,5 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
 /*
@@ -27,11 +28,17 @@ version = "2021.1"
 
 project {
 
-    buildType(CiTest)
+    buildType(Build)
 }
 
-object CiTest : BuildType({
-    name = "CI Test"
+object Build : BuildType({
+    name = "Build"
+
+    steps {
+        script {
+            scriptContent = "echo 'Hello World!'"
+        }
+    }
 
     vcs {
         root(DslContext.settingsRoot)
