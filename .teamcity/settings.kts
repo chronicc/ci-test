@@ -35,6 +35,7 @@ project {
 
 object TestSubproject : Project({
     name = "Test Subproject"
+    buildType(Build)
 })
 
 object Build : BuildType({
